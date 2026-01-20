@@ -7,24 +7,18 @@ using TriviaGame.DTOs.Trivia;
 
 namespace TriviaGame.Application.Trivia
 {
-    internal interface ITriviaRepository
+
+    public interface ITriviaRepository
     {
-        public interface ITriviaRepository
-        {
-            int CrearPartida(int usuarioId, int categoriaId);
+        int CrearPartida(int usuarioId, int categoriaId);
 
-            IEnumerable<QuestionResponseDTO> ObtenerPreguntasAleatorias(int categoriaId);
+        IEnumerable<QuestionResponseDTO> ObtenerPreguntasAleatorias(int categoriaId);
 
-            bool EsRespuestaCorrecta(int respuestaId);
+        bool EsRespuestaCorrecta(int respuestaId);
 
-            void GuardarDetallePartida(
-                int partidaId,
-                int preguntaId,
-                int respuestaId,
-                bool esCorrecta
-            );
+        void GuardarDetallePartida(DetallePartidaDTO detalle);
 
-            int FinalizarPartida(int partidaId);
-        }
+        int FinalizarPartida(int partidaId);
     }
+
 }

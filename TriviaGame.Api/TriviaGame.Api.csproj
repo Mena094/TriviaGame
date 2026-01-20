@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TriviaGame.Application\TriviaGame.Application.csproj" />
     <ProjectReference Include="..\TriviaGame.AspireApp.ServiceDefaults\TriviaGame.AspireApp.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\TriviaGame.Infrastructure\TriviaGame.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

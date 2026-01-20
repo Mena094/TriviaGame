@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace TriviaGame.DTOs.Trivia
 {
-    public class QuestionResponseDTO
+    public  class QuestionResponseDTO
     {
-        public int PreguntaId { get; set; }
-        public string Pregunta { get; set; } = null!;
-        public List<AnswerResponseDTO> Respuestas { get; set; } = new();
+        public int PreguntaId { get; init; }
+        public string Pregunta { get; init; } = string.Empty;
+        public List<AnswerResponseDTO> Respuestas { get; init; } = new();
     }
+
 }
