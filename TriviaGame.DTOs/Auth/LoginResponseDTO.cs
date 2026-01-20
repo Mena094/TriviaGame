@@ -12,5 +12,7 @@ namespace TriviaGame.DTOs.Auth
         public string Usuario { get; set; } = null!;
         public bool Autenticado { get; set; }
         public string? Mensaje { get; set; }
+        public string? Token { get; set; }
+
     }
 }

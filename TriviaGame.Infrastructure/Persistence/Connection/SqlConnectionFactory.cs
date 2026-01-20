@@ -12,7 +12,7 @@ namespace TriviaGame.Infrastructure.Persistence.DbContext
         public SqlConnectionFactory(IConfiguration configuration)
         {
             _connectionString =
-                configuration.GetConnectionString("DefaultConnection")
+                configuration.GetConnectionString("sql")
                 ?? throw new InvalidOperationException("Cadena de conexion no encontrada.");
         }
 

@@ -1,4 +1,6 @@
+using TriviaGame.Api.Security;
 using TriviaGame.Application;
+using TriviaGame.Application.Auth;
 using TriviaGame.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
