@@ -26,10 +26,11 @@ namespace TriviaGame.Api.Security
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, userName)
+             {
+                new Claim("userId", userId.ToString()),
+                new Claim("userName", userName)
             };
+
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
