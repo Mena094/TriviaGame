@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string nombreUsuario = "Jugador";
+    var token = Context.Request.Cookies["JwtToken"];
+    if (!string.IsNullOrEmpty(token))
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jwt = handler.ReadJwtToken(token);
+        nombreUsuario = jwt.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName)?.Value ?? "Jugador";
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,15 +21,41 @@
 <body>
     <header>
         <nav class="navbar navbar-dark bg-dark mb-4">
-            <div class="container">
-                <a class="navbar-brand fw-bold"
-                   asp-controller="Trivia"
-                   asp-action="Index">
+            <div class="container d-flex justify-content-between">
+                <a class="navbar-brand fw-bold" asp-controller="Trivia" asp-action="Index">
                     Trivia Game
                 </a>
+
+                <ul class="navbar-nav d-flex flex-row align-items-center">
+                    @if (!string.IsNullOrEmpty(token))
+                    {
+                        <li class="nav-item me-2">
+                            <span class="navbar-text">
+                                Hola, @nombreUsuario
+                            </span>
+                        </li>
+
+                        <li class="nav-item">
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-link nav-link">
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Login", "Account")">
+                                Iniciar sesión
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

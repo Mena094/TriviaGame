@@ -62,4 +62,12 @@ public class AccountController : Controller
 
         return View(request);
     }
+    [HttpPost]
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("JwtToken");
+        HttpContext.Session.Clear();
+        return RedirectToAction("Login");
+    }
+
 }

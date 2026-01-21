@@ -20,9 +20,6 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var token = Request.Cookies["JwtToken"];
-        if (string.IsNullOrEmpty(token)) return RedirectToAction("Login", "Account");
-
         var estadisticas = await _httpClient.GetFromJsonAsync<UsuarioEstadisticasDTO>("trivia/mis-estadisticas");
         ViewBag.Estadisticas = estadisticas;
         return View();
