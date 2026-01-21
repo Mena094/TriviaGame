@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using TriviaGame.Application.Trivia;
 using TriviaGame.DTOs.Trivia;
-using System.IdentityModel.Tokens.Jwt;
 
 
 namespace TriviaGame.Api.Controllers
@@ -25,12 +26,16 @@ namespace TriviaGame.Api.Controllers
         {
             try
             {
-                var claimId = User.FindFirst("userId")?.Value;
-                var claimName = User.FindFirst("userName")?.Value;
+                var claimId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                              ?? User.FindFirst("sub")?.Value;
+
+                var claimName = User.FindFirst(ClaimTypes.Name)?.Value
+                                ?? User.FindFirst("unique_name")?.Value;
 
                 if (claimId == null || !int.TryParse(claimId, out int usuarioId))
-                    return Unauthorized(new { mensaje = "Token inválido: no se encontro el Id del usuario" });
+                    return Unauthorized(new { mensaje = "Token inválido: no se encontró el ID del usuario" });
 
+           
 
                 // Creat partida para el usuario autenticado
                 var partidaId = _triviaRepository.CrearPartida(usuarioId, request.CategoriaId);
@@ -64,12 +69,18 @@ namespace TriviaGame.Api.Controllers
         {
             try
             {
+                bool esCorrecta = _triviaRepository.EsRespuestaCorrecta(detalle.RespuestaId);
+
+                detalle.EsCorrecta = esCorrecta;
+
+                // 3. Ahora sí, guardar en DetallePartida
                 _triviaRepository.GuardarDetallePartida(detalle);
-                return Ok(new { mensaje = "Respuesta guardada correctamente." });
+
+                return Ok(new { mensaje = "Respuesta procesada", correcta = esCorrecta });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { mensaje = $"Error al guardar detalle: {ex.Message}" });
+                return StatusCode(500, new { mensaje = $"Error: {ex.Message}" });
             }
         }
 
@@ -79,8 +90,15 @@ namespace TriviaGame.Api.Controllers
         {
             try
             {
-                var puntaje = _triviaRepository.FinalizarPartida(partidaId);
-                return Ok(new { Puntaje = puntaje, mensaje = "Partida finalizada." });
+                decimal puntaje = _triviaRepository.FinalizarPartida(partidaId);
+
+                var response = new FinalizarPartidaResponse
+                {
+                    Puntaje = puntaje,
+                    Mensaje = "Partida finalizada."
+                };
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

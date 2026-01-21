@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Juego Terminado";
+    decimal puntaje = ViewBag.Puntaje ?? 0;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 text-center">
+                <div class="card-header bg-success text-white p-4">
+                    <h1 class="display-4">¡Reto Completado!</h1>
+                </div>
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-trophy text-warning" style="font-size: 5rem;"></i>
+                    </div>
+
+                    <h2 class="text-muted">Tu puntuación total es:</h2>
+                    <div class="display-1 fw-bold text-primary mb-4">
+                        @puntaje
+                    </div>
+
+                    <p class="lead mb-5">
+                        @(puntaje > 0 ? "¡Excelente trabajo!" : "¡Sigue intentándolo! La próxima vez te irá mejor.")
+                    </p>
+
+                    <div class="d-grid gap-2">
+                        <a asp-action="Index" class="btn btn-primary btn-lg shadow-sm">
+                            <i class="bi bi-arrow-clockwise"></i> Jugar de nuevo
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                            Ir al inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (puntaje > 0)
+{
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    </script>
+}

@@ -1,0 +1,30 @@
+﻿@model TriviaGame.DTOs.Trivia.QuestionResponseDTO
+@{
+    int indiceActual = ViewBag.Indice;
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-dark text-white text-center">
+            <h5>Pregunta @(indiceActual + 1) de 3</h5>
+        </div>
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4">@Model.Pregunta</h3>
+
+            <form asp-action="EnviarRespuesta" method="post">
+                <input type="hidden" name="preguntaId" value="@Model.PreguntaId" />
+                <input type="hidden" name="siguienteIndice" value="@(indiceActual + 1)" />
+
+                <div class="d-grid gap-3">
+                    @foreach (var resp in Model.Respuestas)
+                    {
+                        <button type="submit" name="respuestaId" value="@resp.RespuestaId"
+                                class="btn btn-outline-primary btn-lg text-start shadow-sm">
+                            <i class="bi bi-arrow-right-circle me-2"></i> @resp.Respuesta
+                        </button>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

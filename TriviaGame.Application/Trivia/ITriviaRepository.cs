@@ -18,7 +18,7 @@ namespace TriviaGame.Application.Trivia
 
         void GuardarDetallePartida(DetallePartidaDTO detalle);
 
-        int FinalizarPartida(int partidaId);
+        decimal FinalizarPartida(int partidaId);
     }
 
 }

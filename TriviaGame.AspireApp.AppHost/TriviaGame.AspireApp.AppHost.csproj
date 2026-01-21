@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TriviaGame.Api\TriviaGame.Api.csproj" />
+    <ProjectReference Include="..\TriviaGame.AppWeb\TriviaGame.AppWeb.csproj" />
   </ItemGroup>
 
 </Project>

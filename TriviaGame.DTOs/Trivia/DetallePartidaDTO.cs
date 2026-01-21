@@ -8,9 +8,9 @@ namespace TriviaGame.DTOs.Trivia
 {
     public class DetallePartidaDTO
     {
-        public int PartidaId { get; init; }
-        public int PreguntaId { get; init; }
-        public int RespuestaId { get; init; }
-        public bool EsCorrecta { get; init; }
+        public int PartidaId { get; set; }
+        public int PreguntaId { get; set; }
+        public int RespuestaId { get; set; }
+        public bool EsCorrecta { get; set; }
     }
 }

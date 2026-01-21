@@ -10,7 +10,7 @@ namespace TriviaGame.DTOs.Trivia
     {
         public int PreguntaId { get; init; }
         public string Pregunta { get; init; } = string.Empty;
-        public List<AnswerResponseDTO> Respuestas { get; init; } = new();
+        public List<AnswerResponseDTO> Respuestas { get; set; } = new List<AnswerResponseDTO>();
     }
 
 }

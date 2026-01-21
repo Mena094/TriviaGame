@@ -6,7 +6,7 @@ using TriviaGame.Application.Auth;
 
 namespace TriviaGame.Api.Security
 {
-    public  class TokenService : ITokenService
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
 
@@ -26,11 +26,11 @@ namespace TriviaGame.Api.Security
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
-             {
-                new Claim("userId", userId.ToString()),
-                new Claim("userName", userName)
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),      
+                new Claim(JwtRegisteredClaimNames.UniqueName, userName),       
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) 
             };
-
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
@@ -42,6 +42,5 @@ namespace TriviaGame.Api.Security
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }

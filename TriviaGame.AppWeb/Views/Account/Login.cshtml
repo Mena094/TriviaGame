@@ -1,0 +1,29 @@
+﻿@model TriviaGame.DTOs.Auth.LoginRequestDTO
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<h2>Login Trivia</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<form asp-action="Login" method="post">
+    <div class="form-group">
+        <label asp-for="Usuario"></label>
+        <input asp-for="Usuario" class="form-control" />
+        <span asp-validation-for="Usuario" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Entrar</button>
+    <a asp-action="Register" class="btn btn-link">Registrarse</a>
+</form>

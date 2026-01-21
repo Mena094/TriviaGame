@@ -101,7 +101,7 @@ namespace TriviaGame.Infrastructure.Persistence.Repositories
             command.ExecuteNonQuery();
         }
 
-        public int FinalizarPartida(int partidaId)
+        public decimal FinalizarPartida(int partidaId)
         {
             using var connection = _connectionFactory.Create();
             using var command = connection.CreateCommand();
@@ -111,8 +111,9 @@ namespace TriviaGame.Infrastructure.Persistence.Repositories
 
             command.Parameters.Add(CreateParameter(command, "@PartidaId", partidaId));
 
-            return Convert.ToInt32(command.ExecuteScalar());
+            return Convert.ToDecimal(command.ExecuteScalar());
         }
+
 
         private static IDbDataParameter CreateParameter(
             IDbCommand command,
