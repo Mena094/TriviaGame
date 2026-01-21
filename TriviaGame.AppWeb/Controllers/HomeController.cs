@@ -1,20 +1,30 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using TriviaGame.AppWeb.Filters;
 using TriviaGame.AppWeb.Models;
+using TriviaGame.DTOs.Trivia;
 
 namespace TriviaGame.AppWeb.Controllers;
 
+[JwtAuthorize]
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    private readonly HttpClient _httpClient;
+   
+
+    public HomeController(IHttpClientFactory httpClientFactory)
     {
-        _logger = logger;
+        _httpClient = httpClientFactory.CreateClient("TriviaApi"); 
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        var token = Request.Cookies["JwtToken"];
+        if (string.IsNullOrEmpty(token)) return RedirectToAction("Login", "Account");
+
+        var estadisticas = await _httpClient.GetFromJsonAsync<UsuarioEstadisticasDTO>("trivia/mis-estadisticas");
+        ViewBag.Estadisticas = estadisticas;
         return View();
     }
 

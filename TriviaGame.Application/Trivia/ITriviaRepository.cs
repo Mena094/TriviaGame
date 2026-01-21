@@ -19,6 +19,7 @@ namespace TriviaGame.Application.Trivia
         void GuardarDetallePartida(DetallePartidaDTO detalle);
 
         decimal FinalizarPartida(int partidaId);
+        UsuarioEstadisticasDTO ObtenerEstadisticasUsuario(int usuarioId);
     }
 
 }

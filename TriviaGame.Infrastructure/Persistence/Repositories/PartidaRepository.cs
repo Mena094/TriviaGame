@@ -125,5 +125,32 @@ namespace TriviaGame.Infrastructure.Persistence.Repositories
             parameter.Value = value;
             return parameter;
         }
+        public UsuarioEstadisticasDTO ObtenerEstadisticasUsuario(int usuarioId)
+        {
+            using var connection = _connectionFactory.Create();
+            using var command = connection.CreateCommand();
+
+            command.CommandText = "sp_Usuario_ObtenerResumen";
+            command.CommandType = CommandType.StoredProcedure;
+
+            var parameter = command.CreateParameter();
+            parameter.ParameterName = "@UsuarioId";
+            parameter.Value = usuarioId;
+            command.Parameters.Add(parameter);
+
+            using var reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                return new UsuarioEstadisticasDTO
+                {
+                    PartidasJugadas = reader.GetInt32(reader.GetOrdinal("PartidasJugadas")),
+                    TotalPuntosAcumulados = reader.GetInt32(reader.GetOrdinal("TotalPuntosAcumulados")),
+                    MejorPuntaje = reader.GetInt32(reader.GetOrdinal("MejorPuntaje"))
+                };
+            }
+
+            return new UsuarioEstadisticasDTO(); 
+        }
     }
 }

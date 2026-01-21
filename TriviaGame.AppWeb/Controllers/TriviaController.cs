@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using TriviaGame.AppWeb.Filters;
 using TriviaGame.DTOs.Categorias;
 using TriviaGame.DTOs.Trivia;
 
+
+[JwtAuthorize]
 public class TriviaController : Controller
 {
     private readonly HttpClient _httpClient;
@@ -23,11 +26,6 @@ public class TriviaController : Controller
             {
                 var categorias = await response.Content.ReadFromJsonAsync<List<CategoriaResponseDTO>>();
                 return View(categorias ?? new List<CategoriaResponseDTO>());
-            }
-
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                return RedirectToAction("Login", "Account");
             }
 
             ViewBag.ErrorMessage = "No se pudieron cargar las categorías.";

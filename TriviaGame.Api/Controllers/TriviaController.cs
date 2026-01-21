@@ -105,5 +105,27 @@ namespace TriviaGame.Api.Controllers
                 return StatusCode(500, new { mensaje = $"Error al finalizar partida: {ex.Message}" });
             }
         }
+
+        // GET: api/trivia/mis-estadisticas
+        [HttpGet("mis-estadisticas")]
+        public IActionResult ObtenerEstadisticas()
+        {
+            try
+            {
+                var claimId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                              ?? User.FindFirst("sub")?.Value;
+
+                if (claimId == null || !int.TryParse(claimId, out int usuarioId))
+                    return Unauthorized(new { mensaje = "Token inválido" });
+
+                var estadisticas = _triviaRepository.ObtenerEstadisticasUsuario(usuarioId);
+
+                return Ok(estadisticas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = $"Error al obtener estadísticas: {ex.Message}" });
+            }
+        }
     }
 }
