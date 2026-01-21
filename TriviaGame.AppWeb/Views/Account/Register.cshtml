@@ -1,0 +1,33 @@
+﻿@model TriviaGame.DTOs.Auth.RegisterRequestDTO
+
+@{
+    ViewData["Title"] = "Registro de Usuario";
+}
+
+<h2>Registro</h2>
+
+<form asp-action="Register" method="post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Usuario"></label>
+        <input asp-for="Usuario" class="form-control" />
+        <span asp-validation-for="Usuario" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-success">Registrarse</button>
+    <a asp-action="Login" class="btn btn-link">Volver al Login</a>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

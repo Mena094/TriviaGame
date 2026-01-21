@@ -9,12 +9,12 @@ namespace TriviaGame.DTOs.Auth
 {
     public class RegisterRequestDTO
     {
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessage = "El usuario es obligatorio")]
+        [StringLength(50, ErrorMessage = "El usuario no puede exceder 50 caracteres")]
         public string Usuario { get; set; } = null!;
 
-        [Required]
-        [MinLength(6)]
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
         public string Password { get; set; } = null!;
     }
 }
