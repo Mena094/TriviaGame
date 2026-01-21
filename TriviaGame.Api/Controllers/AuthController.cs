@@ -26,15 +26,11 @@ namespace TriviaGame.Api.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterRequestDTO request)
         {
-            if (string.IsNullOrWhiteSpace(request.Usuario) ||
-                string.IsNullOrWhiteSpace(request.Password))
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new LoginResponseDTO
-                {
-                    Autenticado = false,
-                    Mensaje = "Usuario y contraseña son obligatorios."
-                });
+                return BadRequest(ModelState);
             }
+
 
             if (_userRepository.UsuarioExiste(request.Usuario))
             {
